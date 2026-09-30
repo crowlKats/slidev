@@ -6,6 +6,7 @@ import { createClicksContextBase } from '../composables/useClicks'
 import { useDrawings } from '../composables/useDrawings'
 import { useMousePosInSlide } from '../composables/useMousePosInSlide'
 import { useNav } from '../composables/useNav'
+import { usePresenterScreenShare } from '../composables/useScreenShare'
 import { useSwipeControls } from '../composables/useSwipeControls'
 import { useWakeLock } from '../composables/useWakeLock'
 import { slidesTitle } from '../env'
@@ -88,6 +89,23 @@ watch(
 )
 
 const mainSlideMode = useLocalStorage<'slides' | 'mirror'>('slidev-presenter-main-slide-mode', 'slides')
+
+// Owned here (not inside the mirror tab) so sharing to the audience keeps running
+// even when the presenter switches the main area back to their slides.
+const {
+  stream: audienceShareStream,
+  sharing: sharingToAudience,
+  toggle: toggleAudienceShare,
+} = usePresenterScreenShare()
+
+async function onToggleAudienceShare() {
+  try {
+    await toggleAudienceShare()
+  }
+  catch {
+    // user dismissed the screen picker, or capture is unavailable
+  }
+}
 
 // Resize state (persisted)
 const notesWidth = useLocalStorage('slidev-presenter-notes-width', 360)
@@ -310,7 +328,11 @@ onMounted(() => {
           />
         </div>
         <template v-if="mainSlideMode === 'mirror'">
-          <ScreenCaptureMirror />
+          <ScreenCaptureMirror
+            :sharing-to-audience="sharingToAudience"
+            :audience-stream="audienceShareStream"
+            @toggle-share-to-audience="onToggleAudienceShare"
+          />
         </template>
 
         <!-- We use v-show here to still infer the clicks context -->

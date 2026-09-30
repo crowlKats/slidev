@@ -10,6 +10,7 @@ import Controls from '../internals/Controls.vue'
 import LaserPointer from '../internals/LaserPointer.vue'
 import NavControls from '../internals/NavControls.vue'
 import PresenterMouse from '../internals/PresenterMouse.vue'
+import ScreenShareViewer from '../internals/ScreenShareViewer.vue'
 import SlideContainer from '../internals/SlideContainer.vue'
 import SlidesShow from '../internals/SlidesShow.vue'
 import { onContextMenu } from '../logic/contextMenu'
@@ -101,6 +102,7 @@ const contentStyle = computed(() => {
         <LaserPointer />
       </template>
       <template #controls>
+        <ScreenShareViewer v-if="!isPrintMode" />
         <div
           v-if="!isPrintMode"
           class="absolute bottom-0 left-0 transition duration-300 opacity-0 hover:opacity-100 focus-within:opacity-100 focus-visible:opacity-100"

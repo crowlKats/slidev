@@ -23,6 +23,13 @@ export async function createServerRefPlugin(
       },
       drawings: await loadDrawings(options),
       snapshots: await loadSnapshots(options),
+      screenShare: {
+        // `id: ''` means nobody is sharing. We avoid `null` here because the
+        // server-ref diff/apply treats `typeof null === 'object'` and crashes
+        // when a `null` value transitions into an object.
+        presenter: { id: '', offers: {} },
+        viewers: {},
+      },
       ...pluginOptions.serverRef?.state,
     },
     onChanged(key, data, patch, timestamp) {
