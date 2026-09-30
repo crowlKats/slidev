@@ -66,9 +66,14 @@ Each layout is optimized for different screen sizes and presentation preferences
 
 > Available since v0.50.0
 
-In the presenter view, you can switch the main slide area to "Screen Mirror" mode. This allows you to capture and display another monitor or window directly in the presenter view.
+In the presenter view, switch the main slide area to "Screen Mirror" mode using the segment control. This mode offers two distinct screen-capture actions — both open your browser's screen-capture picker, the difference is **where** the captured screen or window appears:
 
-Click the "Screen Mirror" option in the presenter view's segment control, then select the screen or window you want to mirror. This is useful when you want to see exactly what your audience sees on the projector or external display (e.g. live coding / live demo).
+- **Mirror to presenter view** — display the captured monitor/window **here, on your presenter screen**. Useful to watch a live demo or see what's on your other display while presenting (e.g. live coding).
+- **Share to audience** — display the captured monitor/window on the **main slides view your audience sees**, overlaid on top of the current slide. Useful for showing a live demo or an external app to your audience without leaving Slidev or switching the projector's input.
+
+"Share to audience" keeps running while you switch the main area back to your slides, and a small preview plus a "Live to audience" indicator is shown in the Screen Mirror tab while active. Click "Stop Sharing" (or stop from your browser's capture indicator) to dismiss it.
+
+The shared video is delivered peer-to-peer over WebRTC. The handshake is exchanged through Slidev's regular sync channel, so it works both when the presenter and audience views run in the same browser (the usual setup where pressing <kbd>p</kbd> opens the presenter view in another window) and across devices when the server is shared (e.g. [`--remote`](/features/remote-access)). Note that establishing the connection across different networks may additionally require a TURN server, which Slidev does not provide.
 
 ## Slide Overview {#slides-overview}
 

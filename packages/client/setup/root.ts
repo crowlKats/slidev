@@ -12,6 +12,7 @@ import { getSlidePath } from '../logic/slides'
 import { makeId } from '../logic/utils'
 import { hmrSkipTransition, syncDirections } from '../state'
 import { initDrawingState } from '../state/drawings'
+import { initScreenShareState } from '../state/screenShare'
 import { initSharedState, onPatch, patch } from '../state/shared'
 
 export default function setupRoot() {
@@ -56,6 +57,7 @@ export default function setupRoot() {
 
   initSharedState(`${slidesTitle} - shared`)
   initDrawingState(`${slidesTitle} - drawings`)
+  initScreenShareState(`${slidesTitle} - screen-share`)
 
   const id = `${location.origin}_${makeId()}`
   const syncType = computed(() => isPresenter.value ? 'presenter' : 'viewer')
